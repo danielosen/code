@@ -1,0 +1,118 @@
+\documentclass[a4paper]{article}
+
+%% Language and font encodings
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+%% Sets page size and margins
+\usepackage[a4paper,top=3cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+%% Useful packages
+\usepackage{amsmath}
+%\usepackage{amsfont}
+\usepackage{graphicx}
+%\usepackage[colorinlistoftodos]{todonotes}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\begin{document}
+\title{notat-ark}
+\author{Daniel}
+\maketitle
+\section{Enkel derivasjon av svak from}
+La $\boldsymbol{u}$ være aproksimasjonen til eksakt løsningen $\boldsymbol{u_e}$ av det lineære elastiske (klassiske) problem. La $\boldsymbol{v}$ være en testfunksjon $\boldsymbol{v} \in V$, en linear space. Vi vil bruke Galerkin Projection metoden med FEM for å finne en likningsystem som bestemmer $\boldsymbol{u}$.
+Vi krever at $\mathcal{L}(\boldsymbol{u})$ skal være ortogonal til $V$ mhp. indre produktet i $L_2$ over domenet $\Omega$:
+\begin{align*}
+\langle \mathcal{L}(\boldsymbol{u}),\boldsymbol{v} \rangle = 0\\
+\langle \nabla \cdot \boldsymbol{\sigma(u)}+\boldsymbol{f},\boldsymbol{v} \rangle = 0\\
+-\int_{\Omega}(\nabla \cdot \boldsymbol{\sigma(u)})\cdot \boldsymbol{v}\mathrm{d}x = \int_{\Omega}\boldsymbol{f}\cdot \boldsymbol{v}\mathrm{d}x
+\end{align*}
+Vi vil bruke integration by parts på venstresiden av likningen siden stress tensoren inneholder andre-deriverte av $\boldsymbol{u}$. Vi ser litt nærmere på uttrykket (og lar avhengigheten av u være implisitt):
+\begin{align*}
+(\nabla \cdot \boldsymbol{\sigma})\cdot \boldsymbol{v} = \sum_i  (\nabla \cdot \boldsymbol{\sigma})_i v_i,
+\end{align*}
+Å ta divergensen til et 2-ordens tensor felt er ikke alltid definert på samme måte. Her er det viktig å være fullt klart over hvordan $\nabla$ er ment å operere på $\sigma$, og dette vil variere fra PDE til PDE i kontinuums mekanikk. For denne utledningen bruker vi
+\begin{align*}
+(\nabla \cdot \boldsymbol{\sigma})_{i} = \sum_{j}\frac{\partial \sigma_{ij}}{\partial x_j},\\
+(\nabla \boldsymbol{v})_{ij} = \frac{\partial v_j}{\partial x_i},\\
+\end{align*}
+som er det man finner i flere kilder om lineær elastisitet. Andre definisjoner vil kunne tilsvare vi tar divergens langs kolonner/rader når vi behandler $\nabla$ som en vektor, som er vanlig i utledelse av PDE i kontinuums mekanikk. Derimot hvis stress tensoren $\boldsymbol{\sigma}$ er symmetrisk så gir disse definisjonene samme resultat. For et isotropisk elastisk medie er dette tilfellet. Så vi skriver:
+\begin{align*}
+(\nabla \cdot \boldsymbol{\sigma})\cdot \boldsymbol{v} = \sum_i (\sum_{j} \frac{\partial \sigma_{ij}}{\partial x_j})v_i  = \sum_i \sum_j v_i\frac{\partial \sigma_{ij}}{\partial x_J},
+\end{align*}
+mens høyresiden av likningen i starten er så å si rett frem. Dermed får vi med delvis integrasjon:
+\begin{align*}
+-\int v_i\frac{\partial\sigma_{ij}}{\partial x_i} &= \int v_i \sigma_{ij}n_j - \int \frac{\partial v_i}{\partial x_j}\sigma_{ij}\\
+-\int_{\Omega}\sum_i\sum_j  v_i\frac{\partial \sigma_{ij}}{\partial x_i} \mathrm{d}x &= -\int_{\partial\Omega}\sum_i\sum_j v_i \sigma_{ij}n_j \mathrm{d}s + \int_{\Omega}\sum_{i}\sum_{j}\frac{\partial v_i}{\partial x_j}\sigma_{ij} \mathrm{d}s\\
+-\int_{\Omega}(\nabla \cdot \boldsymbol{\sigma})\cdot \boldsymbol{v} &= - \int_{\partial\Omega} (\boldsymbol{\sigma}\cdot\boldsymbol{n})  \cdot \boldsymbol{v}\mathrm{d}s + \int_{ \Omega} \boldsymbol{\sigma}:\boldsymbol{\varepsilon(v)} \mathrm{d}x,
+\end{align*}
+hvor vi har brukt at stress tensoren er symmetrisk og at:
+\begin{align*}
+\boldsymbol{\varepsilon(v)} = \frac{1}{2}(\nabla\boldsymbol{v}+\nabla\boldsymbol{v}^T)
+\end{align*}
+og kontraksjonsoperatoren er $a : b = \sum_i\sum_j a_{ij}b_{ji}$, også kalt double dot product. Hvis ikke $\sigma$ er symmetrisk kan vi ikke skrive om få det siste leddet på denne måten. Galerkin formuleringen er da: Finn $v\in V$ og u$\in W$ such that
+\begin{align*}
+\int_{ \Omega} \boldsymbol{\sigma}:\boldsymbol{\varepsilon(v)} \mathrm{d}x = \int_{\partial\Omega_T} (\boldsymbol{\sigma}\cdot\boldsymbol{n})  \cdot \boldsymbol{v}\mathrm{d}s + \int_{\Omega}\boldsymbol{f}\cdot \boldsymbol{v}\mathrm{d}x, \\ \forall v\in V,
+\end{align*}
+hvor med Dirichlet og Neumann boundary conditions
+\begin{align*}
+V &= \{v \in H^1(\Omega) : v = 0 \ \mathrm{on} \ \partial\Omega_D \},\\
+W &= \{w \in H^1(\Omega) : v = u_D \ \mathrm{on} \ \partial\Omega_D\}.
+\end{align*}
+som er rom slik at vi kan bruke stykkevis lineære polynomer når vi med FEM ser etter løsningen $u_h$ med de diskrete funksjonsrommene $v\in V_h \subset V$ og $u \in W_h \subset W$.
+I det isotropiske homogene tilfellet kan vi skrive stress tensoren ut som:
+\begin{align*}
+(\boldsymbol{\sigma})_{ij} &= \sum_k \lambda\delta_{ij}\varepsilon_{kk} +2\mu\varepsilon_{ij} = \sum_k\lambda\delta_{ij}(\frac{\partial u_k}{\partial x_k})+\mu(\frac{\partial u_j}{\partial x_i}+\frac{\partial u_i}{\partial x_j})\\
+\boldsymbol{\sigma(u)} &= \lambda\  \mathrm{trace}(\boldsymbol{\varepsilon(u)})I+2\mu\boldsymbol{\varepsilon(u)}
+\end{align*}
+hvor $\lambda$ og $\mu$ er lame parameterne og $I$ er en identitets matrise av samme dimensjoner som strain. 
+\section{Verifisering med Konstant Løsning}
+Vi vil se under hvilke betingelser approksimasjonen $\boldsymbol{u}$ oppfyller PDE på svak form eksakt når vi velger den som en konstant $\boldsymbol{C}$. Vi må da velge $\boldsymbol{f}=0$ , siden alt forsvinner, så PDE på svark form er:
+\begin{align*}
+\int_{ \Omega} \boldsymbol{\sigma(u)}:\boldsymbol{\varepsilon(v)} \mathrm{d}x = \int_{\partial\Omega_T} (\boldsymbol{\sigma(u)}\cdot\boldsymbol{n})  \cdot \boldsymbol{v}\mathrm{d} = 0,\\
+\boldsymbol{u} = \boldsymbol{C} \ \mathrm{on} \ \Omega_D,
+\end{align*}
+hvor $\partial\Omega_D \neq \{\}$ siden vi må kunne bestemme $\boldsymbol{C}$. Vi velger at $\partial\Omega_D = \partial\Omega$ så neumann (traction) betingelsen forsvinner helt. Feks kan vi velge $\boldsymbol{C}=(1.0,1.0,1.0)$.
+\\\\
+Vi behøver også et mål for feil. Med den eksakte løsningen som $\boldsymbol{u_e}$ og vår diskret løsning $\boldsymbol{u}_h$har vi et naturlig valg med $L_2$ normen:
+\begin{align*}
+E = \sqrt{\int_{\Omega} (u_h-u_e)^2 \mathrm{d}x}
+\end{align*}
+I fenics gjøres dette ved å interpolere løsningen til et " common space (of high accuracy), then subtracting the two fields (which is easy since they are expressed in the same basis) and then evaluating the integral". Default-verdien er degree\_rise $= 3$ slik at både eksakt-løsningen $u_e$ og $u$ er stykkevis polynomer av orden til $u$ + degree\_rise.
+\\\\
+Resultat:
+I fenics får vi igjen konstanten $C$ til maskinpresisjon, $10^{-15}$ med vårt valg av feil mål.
+\begin{figure}[h]
+\caption{$u=((1.0,1.0,1.0)$}
+\centering
+\includegraphics[width=0.5\textwidth]{constant_solution_box.png}
+\end{figure}
+\begin{figure}[h]
+\centering
+\caption{$u=(1.0,1.0,1.0)$}
+\includegraphics[width=0.5\textwidth]{constant_solution_sphere.png}
+\end{figure}
+\newpage
+\section{Konvergenstest med manufactured solution}
+Vi vil nå lage en løsningskandidat gitt boundary conditions. Her er det enklest å forholde seg til Dirichlet betingelser. Vi stapper den inn i likningen og ser hva som kommer ut for source term $f$. I utgangspunktet kan vi ha lyst til å ha en full homogen  dirichlet boundary med verdi $0$, altså clamped solid. Isåfall får vi et problem, fordi en mulig løsning til svakformen er $u=0$. Altså, vi må ha en ikke tom neumann boundary, som impliserer vi må regne ut verdiene der. En mye lettere måte er bare å ha full dirichlet boundary også putte eksakt løsningen vår der for en lineær eksakt løsning. Vi kan begynne med noe ganske enkelt $u=((1-x),0,0)$ som så gir $f=(0,0,0)$. og på dirichlet har vi $u_D = u_e$. Her får vi igjen løsningen med en eneste gang, så det blir ikke mye til konvergenstest, nettopp fordi med lineære elementer så lever eksakt løsningen vår i $W$. Vi velger derfor $u=(0.5(1-x)^2,0,0)$. Men da må vi regne ut $f$ fordi $u$ ikke lenger er lineær.
+\begin{figure}[h]
+\centering
+\caption{$u=((1-x),0,0)$}
+\includegraphics[width=0.5\textwidth]{linear_solution_box.png}
+\end{figure}
+Vi trenger en modell hvor feilen avhenger av en parameter. Vi velger $h$ som en parameter, som vi vil skal være proporsjonal med et mål på størrelsen til elementene, og vi antar at $E=Ch^r$, hvor $r$ er konvergensraten og $E$ er feilen regnet ut i fra $L_2$ normen. Dette er analogt med $h=\Delta x$ i 1D. Desverre er ikke $h$ det samme for alle elementer nødvendigvis, men gitt en mer eller mindre homogen mesh er det hvertfall proporsjonalt med totalvolumet delt på antall "cells" eller elementer, så vi kan bruke det: $h\approx (1/N)$ hvor $N$ er antallet elementer.
+\\\\
+\begin{align*}
+\sigma(u) = 
+\begin{bmatrix}
+(1-x)(\lambda+2\mu) &  0 & 0\\
+0 & (1-x)\lambda & 0\\
+0 & 0 & (1-x)\lambda
+\end{bmatrix}
+\end{align*}
+som gir oss $f=-((\lambda+2\mu),0,0)$. Nå får vi ikke lenger eksakt løsningen tilbake med lineære elementer. Med lineære elementer får vi ikke noe spesiellt bra konvergensrate, $r<1$. Med kvadratiske elementer går vi fort tom for minne... Grunnen til så dårlig konvergens kan skylde at skaleringen er dårlig i forhold til den elastiske modell, hvor $||u||$ og $||\nabla u||$ antas å være mye mindre enn 1. Vi skalererer løsnignen vår med en $d=0.0001$, da er vi sikre på de er små nok (maks verdien er 0.5d og totalvolumet er 1, mens for gradienten så er det bare en derivert som overlever og den er bare 2 ganger større.
+\begin{figure}[h]
+\centering
+\caption{$u=(0.5d(1-x)^2,0,0)$}
+\includegraphics[width=0.5\textwidth]{quadratic_displacement.png}
+\end{figure}
+\end{document}
