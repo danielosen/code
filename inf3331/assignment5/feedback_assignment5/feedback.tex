@@ -1,0 +1,68 @@
+\documentclass[a4paper]{article}
+
+% Import some useful packages
+\usepackage[margin=0.5in]{geometry} % narrow margins
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{listings}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{xcolor}
+\definecolor{LightGray}{gray}{0.95}
+
+\title{Peer-review of assignment 5 for \textit{INF3331-danieleo}}
+\author{sigbjoei, {sigbjoei@ifi.uio.no} \\
+ 		lucaeg, {lucaeg@student.matnat.uio.no} \\
+		haavaoy, {haavaoy@student.matnat.uio.no}}
+
+\begin{document}
+\maketitle
+
+
+
+\section{Review}
+For this review a computer with windows 10, python 3.5.2 and anaconda 4.1.1 was used.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{General feedback}
+Use this section to give general feedback about the solution such as advice for improved programming or documentation style.
+My general impression of this solution is that it is a solid solution to the given assignments. My advice for the next assignment is to be sure to read the specifications of the assignments properly. By avoiding a lot of text between code lines, and splitting code in smaller methods, the code will be more readable. A goal could be that the code should so self explaining that you don't need long portions of text to explain the code.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Assignment 5.1: Syntax highlighting}
+The highlighter works as nearly as expected. Each line gets an extra new line which makes the output difficult to read. This could be solved by creating one string of all lines before printing it, or change the print statement to the following: 
+\begin{lstlisting}
+print(line,end='')
+\end{lstlisting}
+
+The code is well documented, but when writing multiline comments, docstrings could be use, instead of a lot of singleline comments. 
+
+The code is very hard to read in the \verb|highlight_text| method. Following nested statements through 130 lines is not very easy. Splitting the code from this method into several methods would make it more readable. A long text explanation could maybe be put in a readme file instead of between code lines? Debug prints (commented out prints) should be removed together with other commented out code. 
+
+With improved readability, I think this would be a good solution. It has to be a bit complicated to take care of all corner cases. Multiline comments, escaped quotes inside quotes, quotes inside comments, single quotes inside double quotes and visa versa does not work.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Assignment 5.2: Python syntax} \label{sec:assignment5.2}
+The theme is implemented correctly, but some colors, like the string color, are very week. The second theme, python2.theme, is not implemented. The syntax file is implemented correctly, but long texts inside the code could be avoided. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Assignment 5.3: Syntax for your favorite language}
+The java syntax is implemented correctly and works with the highlighter. Good use of regular expressions. The theme file works as expected.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Assignment 5.4: Syntax for your second favorite language}
+The ruby syntax is implemented correctly and works with the highlighter. Good use of regular expressions. Nearly the same colors are used in all the theme files. Some of them are hard to notice. 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Assignment 5.5: superdiff}
+The code as it is will not run on my computer with windows 10, python 3.5.2 and anaconda 4.1.1. This is because of the specified python3 system variable dependency. If I change python3 to python, which is my system variable, it works fine. These kind of dependencies should be avoided if possible. The delivered file is not named as specified in the assignment (diff.py instead of \verb|my_diff.py|). Otherwise the program works as expected, is nice and readable and not to complicated.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Assignment 5.6:  Coloring diff}
+Check that the theme and syntax files (in particular the regular expressions) are implemented correctly.
+The coloring works, but does not follow the specifications of the assignment. Added lines should be green, removed lines should be red and no-changed lines should not have a specific color. The delivered theme file makes the added lines blue, removed lines red and no-changed lines green. Otherwise the syntax and theme works just fine. 
+
+
+
+\end{document}

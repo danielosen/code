@@ -1,0 +1,49 @@
++++ Syntax taken from http://ruby-doc.org/docs/ruby-doc-bundle/Manual/man-1.4/syntax.html +++
+
+
++++ INDENTIFIERS +++
+
++++ COMMENT +++
+"(?:^|[^\'])(#.*)[^\']": comment
+
++++ EMBEDDED DOCUMENTATION +++
+++ multiline not implemented
+"(=begin.*?=end)": string
+++ strings
+"('{1}.*?'{1})": string
+"(\"{1}.*?\"{1})": string
+
++++ Reserved Words +++
+
+"[^\w\W]|(?:^|\s)(BEGIN|class|ensure|nil|self|when|END|def|false|not|super|while|alias)[^\w]": reserved
+"[^\w\W]|(?:^|\s)(defined|for|or|then|yield|and|do|if|redo|true|begin|else|in|rescue|undef)[^\w]": reserved
+"[^\w\W]|(?:^|\s)(break|elsif|module|retry|unless|case|end|next|return|until)[^\w]": reserved
+
++++ other stuff+++
+"[^\w\W]|(?:^|\s)(print)": pink
+"\.(pop)": function
+"\.(shift)": function
+"\.(sort)": function
+
++++ Brackets +++
+"\{|\}|\[|\]|\(|\)": green
+
++++ Backslash notation +++
+"(\\t|\\n|\\r|\\f|\\b|\\a|\\e|\\s|\\nnn|\\xnnn|\\cx|\\C-x|\\M-x|\\M-\\C-x|\\x)": attribute
+
++++ Numbers +++
+"(?:^|[^a-zA-Z_])(\d+\.?\d*[eE]?)": purple
+"(?:\d[eE]){1}(\d)": purple
+
++++ Instance global and :symbol +++
+"[^\w\W]|(?:^|\s)(:\w*?[^\w]|\@|$\w*?[^\w])": palepink
+
+++ binary operators ++
+"(\+|\-|\*|\=|\/|\!|\<|\>)": red
+
+++callable object ++
+"([a-zA-Z_]+?\d*?)\(": function
+
+
+
+

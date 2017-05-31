@@ -1,0 +1,65 @@
++++ grabbed from https://www.tutorialspoint.com/java/java_basic_syntax.htm
+
++++ Java Modifiers +++
+
+++ Access Modifiers ++
+
+"[^\w\W]|(?:^|\s)(default|public|protected|private)[^\w]": access
+"[^\w\W]|(?:^|\s)(final|abstract|strictfp)[^\w]": access
+
+"\{|\}|\[|\]|\(|\)": purple
+
++++ Java Keywords +++
+
+"[^\w\W]|(?:^|\s)(abstract|assert|break)[^\w]": keyword
+"[^\w\W]|(?:^|\s)(case|catch|continue)[^\w]": keyword
+"[^\w\W]|(?:^|\s)(do|else|extends|finally)[^\w]": keyword
+"[^\w\W]|(?:^|\s)(for|goto|if|implements|import|instanceof)[^\w]": keyword
+"[^\w\W]|(?:^|\s)(interface|package)[^\w]": keyword
+"[^\w\W]|(?:^|\s)(return|super|switch|synchronized)[^\w]": keyword
+"[^\w\W]|(?:^|\s)(this|throw|throws|transient|try|volatile|while)[^\w]": keyword
+
+++ relating to type +++
+"(?:[^\w\W]|^|\s|\W?)(boolean|byte|char|class|double|float|int|enum|String|void)[^\w]": type
+++ type modifiers +++
+"(?:[^\w\W]|^|\s|\W?)(const|long|native|new|short|static)[^\w]": mod
+
++++ Comments +++
+++ Non multiline
+"(?:^|[^\'])(//.*)[^\']": comment
+"(?:^|[^\'])(/\*.*/\*)[^\']": comment
+
++++ strings +++
+"('{1}.*?'{1})": string
+"(\"{1}.*?\"{1})": string
+
++++ NUMBERS +++
+
+++ int or decimal, or scientific but not belonging to a variable name (except if a var is named \de/E, but then this is not allowed anyway)
+
+++ this one colors all numbers up to and with the e/E, beginning with not any of the characters or with start line
+
+"(?:^|[^a-zA-Z_])(\d+\.?\d*[eE]?)": number
+++ this colors number after a lone eE with number in front (corner case variable name eE vs scientific number)
+"(?:\d[eE]){1}(\d)": number
+
+++ any of the binary operators, anywhere
+
+"(\+|\-|\*|\=|\/|\!|\<|\>)": math
+
+
+
+++ True and False
+"(?:^|\s)(True|False|None)[^\w]": bool
+
+
+
++++ Class, Functions, Definitions +++
+
+
+++callable object( ...
+
+"([a-zA-Z_]+?\d*?)\(": pink
+
+
+

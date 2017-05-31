@@ -1,0 +1,5 @@
++++ Syntax file for diffing readables +++
+
+"(?:^0\s)(.*?)\n": green
+"(?:^\+\s)(.*?)\n": blue
+"(?:^\-\s)(.*?)\n": red

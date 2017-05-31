@@ -1,0 +1,75 @@
++++ NUMBERS +++
+
+++ int or decimal, or scientific but not belonging to a variable name (except if a var is named \de/E, but then this is not allowed anyway)
+
+++ this one colors all numbers up to and with the e/E, beginning with not any of the characters or with start line
+
+"(?:^|[^a-zA-Z_])(\d+\.?\d*[eE]?)": darkblue
+++ this colors number after a lone eE with number in front (corner case variable name eE vs scientific number)
+"(?:\d[eE]){1}(\d)": darkblue
+
+++ any of the binary operators, anywhere
+
+"(\+|\-|\*|\=|\/|\!|\<|\>)": attribute
+
++++ KEYWORDS +++
+
+++ not words or non-words,linestart,or space - word - not word
+"[^\w\W]|(?:^|\s)(try|except|if|is|raise|else|elif|for|or|in|from|as|and|while|with|as|import|pass|return)[^\w]": green
+
+++ private/special keywords ++
+"(\_\_name\_\_)": red
+"[^\w\W]*(self)[^\w]": funvar
+"[^\w\W]*(FileNotFoundError|ValueError|IndexError|local|global)[^\w]": red
+"[^\w\W]*(@)": red
+
+
+++ True and False
+"(?:^|\s)(True|False|None)[^\w]": funvar
+
+++ brackets
+"\{|\}|\[|\]|\(|\)": purple
+
+
++++ Class, Functions, Definitions +++
+
+++class or def
+
+"(?:^|[^\w])(class|def)\s+?": def
+
+++callable object( ...
+
+"([a-zA-Z_]+?\d*?)\(": pink
+
+++noncallable object definition
+
+"(?:^|\w)class\s*?([a-zA-Z_]+?\d*?)\:": palepink
+
+"(?:^|\w)def\s*?([a-zA-Z_]+?\d*?)\:": palepink
+
+
++++ STRINGS +++
+
+++ simple one line strings, these are basically like comments since we ignore coloring anything inside
++still unresolved issue with ' inside strings, sort of fixed by hardcoding quantifiers
+"('{1}.*?'{1})": string
+"(\"{1}.*?\"{1})": string
+
++++ COMMENTS +++
+
+++ These are treated separately from all other syntax
+
+++ At a comment symbol, everything to the right of and including is colored and ignored
+
++these comments remove everyting to the right of them, but not if inside strings
++weird corner case where... you have '#' messing some stuff up
+"(?:^|[^\'])(#.*)[^\']": comment
+
++these comments can be multiline (not implemented), but have end parts, and so are basically strings
++the obvious conflict with strings is handled in the highlighter
+
+"('{3}.*?'{3})": comment
+"("{3}.*?"{3})": comment
+
+
+
