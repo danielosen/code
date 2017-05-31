@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+	<!--Grab jquery and css files-->
+    <title>Visualization Flask App</title>
+    <link rel="stylesheet" type="text/css" href="{{url_for( 'static',filename = 'bootstrap.min.css')}}">
+    <script src="{{url_for('static',filename='jquery-3.1.1.min.js')}}"></script>
+    <script src="{{url_for('static',filename='bootstrap.min.js')}}"></script>
+    <!--define some styles to visually enhance webapp-->
+    <style>
+		p.solid {border-style: solid;}
+		.form-group input[type="number"], .form-cotrol input[type="number"], select.form-control{
+			width: 100px;
+		}
+		.form-group label{
+			width:100px;
+		}
+		.air{
+			margin-top: 5px;
+			margin-bottom: 5px;
+		}
+    </style>
+    
+</head>
+<body>
+	<!--The container class has rows with columns for the forms which can submit changes to the images-->
+	<div class="container">
+	<h1>Visualization Flask App</h1>
+    <h4>This app generates plots of CO2 and temperature data collected over time, including comparing CO2 emissions between countries</h4>
+    <a class="air btn btn-primary" href = "/help">Help</a>
+	<p class="solid"></p>
+    <h3>Carbon vs Time Plot</h3>
+    <hline></hline>
+    <!--Each form grabs the last used user-submitted value, and posts the new one-->
+    <form action="/image" method="POST">
+    	<div class="form-inline row">
+	    	<div class="form-group col-sm-6">
+		    	<label  for="x_min">Min Year</label>
+		    	<input class="form-control" id="x_min" type="number" name="x_min" value = "{{CO2plot_xmin}}">
+		    </div>
+		    <div class="form-group col-sm-6">
+		    	<label for="y_min">Min Carbon</label>
+		    	<input class="form-control" type="number" name="y_min" value = "{{CO2plot_ymin}}">
+		    </div>		    
+	    </div>
+	    <div class="form-inline row">
+		    <div class="form-group col-sm-6">
+		     	<label for="x_max">Max Year</label>
+		    	<input class="form-control" type="number" name="x_max" value = "{{CO2plot_xmax}}">
+		    </div>
+		    <div class="form-group col-sm-6">
+		     	<label for="y_max">Max Carbon</label>
+		    	<input class="form-control" type="number" name="y_max" value = "{{CO2plot_ymax}}">
+		    </div>
+	    </div>
+	 	<input class="air btn btn-success" type="submit" value = "Generate Image">
+    </form>
+    <!--Images are encoded from byestream base64, and are grabbed from the python script-->
+    <img src='data:image/png;base64,{{CO2plot}}' width=500>
+    <hr></hr>
+    <hline></hline>
+    <h3>Temperature vs Time Plot</h3>
+    <form action="/image2" method="POST">
+    	<div class="form-inline row">
+	    	<div class="form-group col-sm-6">
+		    	<label  for="x_min">Min Year</label>
+		    	<input class="form-control" id="x_min" type="number" name="x_min" value = "{{Tplot_xmin}}">
+		    </div>
+		    <div class="form-group col-sm-6">
+		    	<label for="y_min">Min Temp</label>
+		    	<input class="form-control" type="number" name="y_min" value = "{{Tplot_ymin}}">
+		    </div>
+	    </div>
+	    <div class="form-inline row">
+		    <div class="form-group col-sm-6">
+		     	<label for="x_max">Max Year</label>
+		    	<input class="form-control" type="number" name="x_max" value = "{{Tplot_xmax}}">
+		    </div>
+		    <div class="form-group col-sm-6">
+		     	<label for="y_max">Max Temp</label>
+		    	<input class="form-control" type="number" name="y_max" value = "{{Tplot_ymax}}">
+		    </div>
+	    </div>
+	     <!--This code is to allow for a dropdown selection menu-->
+	    <div class="form-inline row">
+	    	<div class="form-group col-sm-6">
+			  <label for="month">Month number</label>
+			  <select id="month" name="month"  class="form-control selection_months">
+			    <option value="-1">All</option>
+			    <option value="1">January</option>
+			    <option value="2">February</option>
+			    <option value="3">March</option>		    
+			    <option value="4">April</option>
+			    <option value="5">May</option>
+			    <option value="6">June</option>
+			    <option value="7">July</option>
+			    <option value="8">August</option>
+			    <option value="9">September</option>
+			    <option value="10">October</option>
+			    <option value="11">November</option>
+			    <option value="12">December</option>
+			  </select>
+			</div>
+			<div class="form-group col-sm-6">
+				<label for="finalyear">Prediction Year</label>
+				<input class="form-control" type="number" name="finalyear" value= "{{Tplot_finalyear}}">
+	    	</div>
+	    </div>
+	 	<input class="air btn btn-success" type="submit" value = "Generate Image">
+    </form>
+    <img src='data:image/png;base64,{{Tplot}}' width=500>
+    <hr></hr>
+    <h3>CO2 Emission vs. Country</h3>
+    <form action="/image3" method=POST>
+    	<div class="form-inline row">
+    		<div class="form-group col-sm-6">
+    			<label for="x_min">Min Threshold</label>
+    			<input class="form-control" type="number" name="x_min" value="{{Cplot_xmin}}">
+    		</div>
+    		<div class="form-group col-sm-6">
+    			<label for="x_max">Min Threshold</label>
+    			<input class="form-control" type="number" name="x_max" value="{{Cplot_xmax}}">
+    		</div>
+    	</div>
+    	<div class="form-inline row">
+    		<div class="form-group col-sm-6">
+    			<label for="emission_year">Year</label>
+    			<input class="form-control" type="number" name="emission_year" value="{{Cplot_year}}">
+    		</div>
+    	</div>
+    	<input class="air btn btn-success" type="submit" value = "Generate Image">
+    </form>
+    <img src='data:image/png;base64,{{Cplot}}' width=800>
+    </div>
+
+     <!--All this script does is to make sure that the last user-selected value gets set as the selected attribute on the dropdown menu-->
+    <script>		 	
+	 $('.selection_months option').removeAttr('selected').filter('[value={{Tplot_month}}]').attr('selected', true);
+	</script>
+</body>
+ 
+</html>

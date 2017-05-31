@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="{{url_for( 'static',filename = 'bootstrap.min.css')}}">
+	<title>Help</title>
+	<style>
+		p.solid {border-style: solid;}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h1>Help</h1>
+		<p class="solid"></p>
+		<h3>Carbon vs Time Plot</h3>
+		<pre>{{co2_doc}}</pre>
+		<h3>Temperature vs Time Plot</h3>
+		<pre>{{temp_doc}}</pre>
+		<h3>CO2 Emission vs. Country</h3>
+		<pre>{{bar_doc}}</pre>
+		<br></br>
+		<small>NB: Make sure that your input is of correct, sensical type. There is no sanity checking.</small>
+		<br></br>
+		<a class="btn btn-danger" href="/">Go Back</a>
+	</div>
+</body>
+</html>
