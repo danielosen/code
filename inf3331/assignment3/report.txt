@@ -1,0 +1,26 @@
+  _____                       _    
+ |  __ \                     | |   
+ | |__) |___ _ __   ___  _ __| |_  
+ |  _  // _ \ '_ \ / _ \| '__| __| 
+ | | \ \  __/ |_) | (_) | |  | |_  
+ |_|  \_\___| .__/ \___/|_|   \__| 
+            | |                    
+            |_|                    
+----------------------------------
+
+-Q1- Which test fails?
+
+-A1- The first test fails, where a=4, b=7, n=0, r=11.
+
+-Q2- Why does the test fail?
+
+-A2- Because sum_computations is empty: [] does not
+    have an element at index 0.
+
+-Q3- What is wrong with better addition?
+
+-A3- Comparing a+b with a+b is a fruitless endeavour,
+    because they are the same to within machine precision.
+    Also, indexing into an empty list, since
+    range(0) is [].
+	
