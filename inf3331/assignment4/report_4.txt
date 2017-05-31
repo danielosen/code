@@ -1,0 +1,97 @@
+Report 2: Runtime Comparison
+------------------------------------------------------------
+
+Scripts:
+------------------------------------------------------------
+mandelbrot_4.py
+mandelbrot_3.py
+mandebrot_2.py
+mandelbrot_1.py
+
+
+Run Commands (main_script.py --help)
+------------------------------------------------------------
+
+python3 main_script.py mandelbrot_4.py -1 1 -1 1 100 100 test
+python3 main_script.py mandelbrot_3.py -1 1 -1 1 100 100 test
+python3 main_script.py mandelbrot_2.py -1 1 -1 1 100 100 test
+python3 main_script.py mandelbrot_1.py -1 1 -1 1 100 100 test
+
+Result (Average of 3 runs):
+mandelbrot_1.py : 9.04 seconds
+mandelbrot_2.py : 0.5 seconds
+mandelbrot_3.py : 0.14 seconds
+mandelbrot_4.py : 0.12 seconds
+
+python3 main_script.py mandelbrot_4.py -1 0 -1 0 100 100 test
+python3 main_script.py mandelbrot_3.py -1 0 -1 0 100 100 test
+python3 main_script.py mandelbrot_2.py -1 0 -1 0 100 100 test
+python3 main_script.py mandelbrot_1.py -1 1 -1 1 100 100 test
+
+Result (Average of 3 runs):
+mandelbrot_1.py : 12.04 seconds
+mandelbrot_2.py : 0.61 seconds
+mandelbrot_3.py : 0.19 seconds
+mandelbrot_4.py : 0.19 seconds
+
+python3 main_script.py mandelbrot_4.py 0 1 0 1 100 100 test
+python3 main_script.py mandelbrot_3.py 0 1 0 1 100 100 test
+python3 main_script.py mandelbrot_2.py 0 1 0 1 100 100 test
+python3 main_script.py mandelbrot_1.py -1 1 -1 1 100 100 test
+
+Result (Average of 3 runs):
+mandelbrot_1.py : 4.95 seconds
+mandelbrot_2.py : 0.41 seconds
+mandelbrot_3.py : 0.09 seconds
+mandelbrot_4.py : 0.07 seconds
+
+Conclusion
+-----------------------------------------------------------
+
+Total Average:
+mandelbrot_1.py : 8.68
+mandelbrot_2.py : 0.51
+mandelbrot_3.py : 0.14
+mandelbrot_4.py : 0.12
+
+Ratio 1/2 : 17
+
+ratio 1/3 : 63
+
+ratio 1/4 : 72
+
+ratio 2/3 : 4
+
+ratio 2/4 : 4 (4.2 rounded)
+
+ratio 3/4 : 1 (1.2 rounded)
+
+
+mandelbrot_2.py is 17 times faster than mandelbrot_1.py
+mandelbrot_3.py is 63 times faster than mandelbrot_1.py
+mandelbrot_3.py is 4 times faster than mandelbrot_2.py
+
+
+Stress test large N (mandelbrot_3.py vs mandelbrot_4.py)
+--------------------------------------------------------
+
+main_script.py mandelbrot_3.py -1 1 -1 1 1000 1000 test
+main_script.py mandelbrot_4.py -1 1 -1 1 1000 1000 test
+
+Best of 3
+mandelbrot_4.py 10.93
+mandelbrot_3.py 13.25
+
+Ratio 4/3 : 1.2 
+
+mandelbrot_4.py is about 20% faster than mandelbrot_3.py
+
+
+Cython was much easier to write because SWIG requires substantial understanding
+of overhead and reading of documentation in comparison. That said,
+SWIG also seems much better for larger projects and easier to change,
+with larger transparency of what is going on the code, and what is intepreted
+by the compiler.
+
+
+

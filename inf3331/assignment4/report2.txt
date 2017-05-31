@@ -1,0 +1,48 @@
+Report 2: Runtime Comparison
+------------------------------------------------------------
+
+Scripts:
+------------------------------------------------------------
+mandelbrot_1.py
+mandebrot_2.py
+
+
+Run Commands (main_script.py --help)
+------------------------------------------------------------
+
+python3 main_script.py mandelbrot_1.py -1 1 -1 1 100 100 test
+python3 main_script.py mandelbrot_2.py -1 1 -1 1 100 100 test
+
+Result (Average of 3 runs):
+mandelbrot_1.py : 9.04 seconds
+mandelbrot_2.py : 0.5 seconds
+
+
+python3 main_script.py mandelbrot_1.py -1 0 -1 0 100 100 test
+python3 main_script.py mandelbrot_2.py -1 0 -1 0 100 100 test
+
+Result (Average of 3 runs):
+mandelbrot_1.py : 12.04 seconds
+mandelbrot_2.py : 0.61 seconds
+
+python3 main_script.py mandelbrot_1.py 0 1 0 1 100 100 test
+python3 main_script.py mandelbrot_2.py 0 1 0 1 100 100 test
+
+Result (Average of 3 runs):
+mandelbrot_1.py : 4.95 seconds
+mandelbrot_2.py : 0.41 seconds
+
+Conclusion
+-----------------------------------------------------------
+
+Total Average:
+mandelbrot_1.py : 8.68
+mandelbrot_2.py : 0.51
+
+Ratio: 17
+
+
+mandelbrot_2.py is 17 times faster than mandelbrot_1.py
+
+
+
