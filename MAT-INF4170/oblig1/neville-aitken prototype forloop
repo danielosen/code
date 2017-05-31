@@ -1,0 +1,8 @@
+neville-aitken
+
+for j=0,...,p:
+	q[j] = c_j
+
+for k=1,...,p:
+	for j=p,p-1,...,k:
+		q[j] = (1-t)*q[j-1]+t*q[j]
