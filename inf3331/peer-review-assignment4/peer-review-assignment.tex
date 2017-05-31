@@ -1,0 +1,96 @@
+\documentclass[a4paper]{article}
+
+% Import some useful packages
+\usepackage[margin=0.5in]{geometry} % narrow margins
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{hyperref}
+\usepackage{minted}
+\usepackage{amsmath}
+\usepackage{xcolor}
+\definecolor{LightGray}{gray}{0.95}
+
+\title{Peer-review of assignment 4 for \textit{INF3331-danieleo}}
+\author{haavaoy, \url{havard.oya@gmail.com} \\
+ 		aasmunkv, \url{aasmunkv@student.matnat.uio.no} \\
+		thomagb, \url{thomagb@student.matnat.uio.no}}
+
+\begin{document}
+\maketitle
+
+
+\section{Review \emph{}}\label{sec:review}
+
+Python version, operating system:\\
+Python 3.5.2, Ubuntu Linux through VirtalBox.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{General feedback}
+Noe jeg savner litt i noen deler av koden er grundigere dokumentering. Ikke nødvendighvis docstrings da
+dette ikke ble nevnt som krav i oppgaven, men savner flere kommantarer i noen av filene. I de fleste filene er det
+litt vanskelig å forstå de delene som er logisk vanskelig. Ikke fordi koden er dårlig, men fordi logikken er
+vanskelig, og uten flere kommentarer som utfyller dette kan det bli litt røft å sette seg inn i. I og
+med at både jeg og den som gir deg poeng har vært borti mandelbrot før så er det ikke krise, men tenker at
+man uansett skal kommentere slik at en som aldri har sett koden eller vært borti mandelbrot likevel skal ha
+en viss formening om hva som skjer, jeg mener flere eller tydeligere kommentarer feks. kunne ha gjort dette
+lettere. Men husk at dette er litt pirk.\\
+En mangel ved koden din er at det ikke er mulig å kalle på mandelbrot skriptene for seg selv. Oppgaven
+sier at at man skal opprette et inteface slik at man selv kan velge paramentrene man sender med til de ulike
+mandelbrot versjonene, men både før og etter dette interfacet har blitt laget skal det også være mulig å
+kalle på de ulike mandebrot scriptene uten noe parametre. En enkel måte å fikse dette på vil være å legge
+inn noen "default" verdier som blir satt hvis 
+\begin{minted}[bgcolor=LightGray, linenos, fontsize=\footnotesize]{python}
+sys.argv.__len__() == 1:
+\end{minted} 
+\\ved bruk av en eksra elif.
+Slik at man da feks. kan kalle python3 mandelbrot\_1.py, uten problemer. Hvis man skal følge kodekonvensjon tror jeg kanskje du også har litt mye identering i koden, men dette er selfølgelig veldig pirkete.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Assignment 4.1: Python implementation}
+Her skriver du veldig god kode. Godt kommentert sett vekk ifra generel respons jeg gav på toppen. Gode
+variabel og funkjsonsnavn. For brukervenlighet hadde det vært kjekt å ha en counter som sier hvor mange
+itereringer som er igjen før scriptet er ferdig, eller som prosentvis sier hvor lenge det er igjen.
+Mandelbrot\_1 bruker litt lang tid hvis man setter høye Nx og Ny verdier (som forventet) så en counter her
+for å se hvor lenge det er igjen hadde vært fint å ha.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Assignment 4.2:  numpy implementation} \label{sec:assignment5.2}
+Også veldig bra gjennomført, med god bruk av vektorisering. Veldig bra kommentering selv om den til tider
+kan bli litt uoversiktig, med tanke på måten den er mikset inn med resten av koden. Fin bruk av numpy og
+scriptet går betydelig raskere enn mandelbrot\_1.
+Report2 filen var fin og oversiktelig, men tror det kunne vært praktisk å teste med litt høyere x og y akse
+verdier (altså Nx og Ny), da bildet blir litt lite med bare 100, og man kan se en enda tydeligere forskjell
+på mandelbrot 1 og 2 hvis man feks. setter de til 1000.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Assignment 4.3: Integrated C implementation}
+Bra utført og fin implementering av cython. Lett å lese. For å gjøre cython versjonen enda raskere kunne du ha brukt vanlig cython (slik som du har gjort det) for å beregne mandelbrotset-formelen, mens du kunne brukt numpy arrays og vektorisering for å fylle verdiene inn i modellen, dette tror jeg hadde vært enda raskere.
+Her hadde det også vært kjekt å tatt med høyere x og y akse verdier i report3, mye fordi forskjellen på numpy og cython er betydelig men kanskje ikke så lett å skjønne hvor betydelig den faktisk er, hvis aksene er på 100. Hvis de er på 1000 er det mye enklere å faktisk oppfatte hvor mye raskere cython er.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Assignment 4.4:  An alternative integrated C implementation}
+Fin implementering av swig. Savner en litt tydeligere kommentering på hva alle de ulike filene gjør. Kommenteringen om hva som skjer i koden er fin, men hadde som sagt likt å fått bedre oversikt i kommentarene om hvordan filene dine henger sammen.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Assignment 4.5: User interface}
+Utseendemessig ser interfacet ditt veldig bra ut, det er oversiktelig og gir gode forklaringer på det man kanskje måtte lure på. Det eneste jeg savner er en liten forklaring på hva Nx og Ny representerer, i og med at du har forklart hva alle de andre parametrene står for. Koden er også oversiktelig og god.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Assignment 4.6:  Packaging and unit tests}
+God packeging og fine tester. Koden var veldig lett leselig og du kommenterte tydelig hvilke andre pakker som måtte installeres. Flott!
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Assignment 4.7: More color scales + art contest}
+Måten du implementerte color scales-ene i modulen var bra, både kodemessig og estetisk, og gifen du laga til konkuransen var veldig kul! \#acid trip.
+Jeg savner derimot muligheten til å endre color scales osv. igjennom interfacet. Det står ikke spesifikt i oppgaven, men mener det burde vært implementert på en måte slik at man enkelt kan endre det uten å måtte bruke metoder fra modulen, evt. også printet forklaring i interfacet. Ellers bra!
+
+\subsection*{Assignment 4.8: Self replication}
+Ikke besvart(hvis den faktisk er besvart finner jeg i alle fall ikke fila).
+
+
+\bibliographystyle{plain}
+\bibliography{literature}
+
+\end{document}
